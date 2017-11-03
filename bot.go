@@ -7,7 +7,7 @@ import (
   "strings"
 
   "./dns"
-  
+
   "gopkg.in/telegram-bot-api.v4"
 )
 
@@ -55,7 +55,7 @@ func main() {
 
       bot.Send(msg)
     }
-    
+
     if (domain.MatchString(update.Message.Text)) {
       // Fetch dig data
       d := dns.Dns(update.Message.Text)
@@ -71,7 +71,7 @@ func main() {
 
       bot.Send(msg)
     }
-    
+
     if (domainType.MatchString(update.Message.Text)) {
       msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Work in progress!")
       msg.ReplyToMessageID = update.Message.MessageID
