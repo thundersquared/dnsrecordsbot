@@ -25,7 +25,7 @@ func main() {
   u := tgbotapi.NewUpdate(0)
   u.Timeout = 60
 
-  command := regexp.MustCompile("/(start|help)")
+  command := regexp.MustCompile("/?(start|help)")
   domain := regexp.MustCompile("(https?:?/?/?)?[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9].[a-zA-Z]{2,}(.*)")
   domainType := regexp.MustCompile("(https?:?/?/?)?[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9].[a-zA-Z]{2,}(.*) (.*)")
 
