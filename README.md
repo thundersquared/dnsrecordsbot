@@ -1,7 +1,12 @@
 <p align="center">
-  <img src="https://github.com/thundersquared/dnsrecordsbot/blob/master/media/Slick Icon@2x.png?raw=true" height="128" />
+  <img src="media/Slick Icon@2x.png" width="128" />
   <h3 align="center">dnsrecordsbot</h3>
   <p align="center">A Telegram bot to fetch DNS records</p>
+  <p align="center">
+    <a href="https://t.me/dnsrecordsbot" target="_blank">
+      <img src="media/Button@2x.png" width="128" />
+    </a>
+  </p>
 </p>
 
 ## A bot for what?
@@ -12,13 +17,21 @@ The bot is written in Go, relies on [go-telegram-bot-api](https://github.com/go-
 
 ## How to build
 1. Clone the repo
-    `git clone this repo`
+   ```
+   git clone this repo
+   ```
 2. Install packages
-    `go get -d`
+   ```
+   go get -d
+   ```
 3. Build
-    `go build bot.go`
+   ```
+   go build bot.go
+   ```
 4. Run
-    `BOT_TOKEN="YOUR-BOT-TOKEN" ./bot`
+   ```
+   BOT_TOKEN="YOUR-BOT-TOKEN" ./bot
+   ```
 
 ## Environment vars
 | Var | Value | Required |
