@@ -64,10 +64,7 @@ func main() {
 
         bot.Send(msg)
       }
-    }
-
-    // Execute lookup
-    if (QueryCommand.MatchString(update.Message.Text)) {
+    } else if (QueryCommand.MatchString(update.Message.Text)) {
       cmd := QueryCommand.FindAllStringSubmatch(update.Message.Text, -1)
       RecordTypes := []string {
         "A",
