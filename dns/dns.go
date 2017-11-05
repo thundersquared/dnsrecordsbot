@@ -47,7 +47,7 @@ func (dns DNS) GetRecords() []string {
 func (dns DNS) GetRecordsOfType(t string) string {
   cmd := exec.Command("dig", "+nocmd", dns.Domain, t, "+multiline", "+noall", "+answer")
   out, err := cmd.CombinedOutput()
-  
+
   if err != nil {
     log.Fatal(err)
   }
