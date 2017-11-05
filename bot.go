@@ -34,7 +34,7 @@ func main() {
   u := tgbotapi.NewUpdate(0)
   u.Timeout = 60
 
-  QueryCommand, err := regexp.Compile("((\\w+\\.?)+)\\s?((@(\\w+\\.?)+)?(A{1,4}|NS|SOA|MX|TXT|DNSKEY)?)")
+  QueryCommand := regexp.MustCompile("(?i)((\\w+\\.?)+)\\s?((@(\\w+\\.?)+)?(A{1,4}|NS|SOA|MX|TXT|DNSKEY)?)")
 
   updates, err := bot.GetUpdatesChan(u)
 
@@ -65,33 +65,37 @@ func main() {
         bot.Send(msg)
       }
     } else if (QueryCommand.MatchString(update.Message.Text)) {
-      cmd := QueryCommand.FindAllStringSubmatch(update.Message.Text, -1)
-      RecordTypes := []string {
-        "A",
-        "AAAA",
-        "NS",
-        "SOA",
-        "MX",
-        "TXT",
-        "DNSKEY",
-      }
+      query := strings.ToLower(update.Message.Text)
+      match := QueryCommand.FindAllStringSubmatch(query, -1)
 
       // Fetch dig data
-      d := dns.Dns(cmd[0][1])
-      var message string
+      dig, err := dns.Dns(match[0][1])
 
-      if (stringInSlice(cmd[0][3], RecordTypes)) {
-        message = d.GetRecordsOfType(cmd[0][3])
-      } else {
-        records := d.GetRecords()
-        message = strings.Join(records, "\n")
+      if err == nil {
+        var message string
+
+        isRecType := stringInSlice(strings.ToUpper(match[0][3]), dig.RecordTypes)
+        isFrom := strings.HasPrefix(match[0][3], "@")
+
+        if (isRecType && isFrom) {
+          records := dig.GetRecordsFrom(match[0][3])
+          message = strings.Join(records, "\n")
+        } else if (isRecType) {
+          message = dig.GetRecordsOfType(strings.ToUpper(match[0][3]))
+        } else if (isFrom) {
+          records := dig.GetRecordsFrom(match[0][3])
+          message = strings.Join(records, "\n")
+        } else {
+          records := dig.GetRecords()
+          message = strings.Join(records, "\n")
+        }
+
+        // Join and reply
+        msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
+        msg.ReplyToMessageID = update.Message.MessageID
+
+        bot.Send(msg)
       }
-
-      // Join and reply
-      msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
-      msg.ReplyToMessageID = update.Message.MessageID
-
-      bot.Send(msg)
     } else {
       text := "Looks like an unsupported markup. Did you check /help?"
       msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
