@@ -33,6 +33,9 @@ The bot is written in Go, relies on [go-telegram-bot-api](https://github.com/go-
    BOT_TOKEN="YOUR-BOT-TOKEN" ./bot
    ```
 
+## Run with Docker
+```docker run -dit --restart on-failure -e "BOT_TOKEN=YOUR_TOKEN_HERE" thundersquared/dnsrecordsbot```
+
 ## Environment vars
 | Var | Value | Required |
 | --------- | ---- | --- |
