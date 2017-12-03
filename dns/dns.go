@@ -25,7 +25,6 @@ func Dns(Domain string) (DNS, error) {
   d.RecordTypes = []string {
     "A",
     "AAAA",
-    "CNAME",
     "MX",
     "NS",
     "PTR",
